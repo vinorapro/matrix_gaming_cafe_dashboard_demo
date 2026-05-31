@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* default accent = cyan; overridden at runtime by ThemeContext */
+  --accent: 34 211 238;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--app-bg, radial-gradient(circle at 20% 10%, #0b1024 0%, #05070d 55%, #04060b 100%));
+  color: #e6ecff;
+  font-family: 'Rajdhani', system-ui, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Slim neon scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--accent) / 0.4);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--accent) / 0.7);
+}
+
+@layer components {
+  .glass {
+    @apply bg-panel/60 backdrop-blur-xl border border-white/5;
+  }
+
+  .glass-card {
+    @apply relative rounded-2xl glass shadow-card overflow-hidden;
+  }
+
+  /* Thin neon top border that lights up a card */
+  .neon-edge::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-px;
+    background: linear-gradient(90deg, transparent, rgb(var(--accent) / 0.9), transparent);
+  }
+
+  .neon-text {
+    color: rgb(var(--accent));
+    text-shadow: 0 0 12px rgb(var(--accent) / 0.6);
+  }
+
+  .label {
+    @apply text-[11px] uppercase tracking-[0.18em] text-slate-400 font-semibold;
+  }
+
+  .input-field {
+    @apply w-full bg-abyss/70 border border-edge rounded-xl px-4 py-2.5 text-sm text-slate-100
+           placeholder:text-slate-500 outline-none transition
+           focus:border-accent focus:shadow-glow-sm;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide;
+  }
+
+  .sidebar-link {
+    @apply relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium
+           text-slate-400 transition-all hover:text-white hover:bg-white/5;
+  }
+
+  .sidebar-link-active {
+    @apply text-white bg-accent-soft;
+  }
+}
+
+@layer utilities {
+  /* Animated cyber grid background */
+  .cyber-grid {
+    background-image: linear-gradient(rgb(var(--accent) / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--accent) / 0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Light mode overrides — activated by `html.light` from ThemeContext   */
+/* ------------------------------------------------------------------ */
+html.light {
+  color-scheme: light;
+}
+html.light body {
+  background: radial-gradient(circle at 20% 10%, #f3f6fc 0%, #e6ecf6 55%, #d9e1ee 100%);
+  color: #0f172a;
+}
+html.light .glass {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(15, 23, 42, 0.08);
+}
+html.light .glass-card {
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+html.light .text-white { color: #0f172a !important; }
+html.light .text-slate-200 { color: #1e293b !important; }
+html.light .text-slate-300 { color: #334155 !important; }
+html.light .text-slate-400 { color: #475569 !important; }
+html.light .text-slate-500 { color: #64748b !important; }
+html.light .bg-void\/70 { background-color: rgba(255, 255, 255, 0.75) !important; }
+html.light .bg-void\/50 { background-color: rgba(255, 255, 255, 0.55) !important; }
+html.light .bg-panel\/60 { background-color: rgba(255, 255, 255, 0.7) !important; }
+html.light .bg-panel\/95 { background-color: rgba(255, 255, 255, 0.96) !important; }
+html.light .bg-abyss\/70 { background-color: rgba(241, 245, 251, 0.9) !important; }
+html.light .bg-abyss\/60 { background-color: rgba(241, 245, 251, 0.8) !important; }
+html.light .bg-black\/20 { background-color: rgba(15, 23, 42, 0.04) !important; }
+html.light .bg-black\/30 { background-color: rgba(15, 23, 42, 0.06) !important; }
+html.light .bg-white\/5 { background-color: rgba(15, 23, 42, 0.04) !important; }
+html.light .bg-white\/\[0\.03\] { background-color: rgba(15, 23, 42, 0.03) !important; }
+html.light .border-white\/5 { border-color: rgba(15, 23, 42, 0.06) !important; }
+html.light .border-white\/10 { border-color: rgba(15, 23, 42, 0.1) !important; }
+html.light .border-white\/15 { border-color: rgba(15, 23, 42, 0.14) !important; }
+html.light .border-edge { border-color: rgba(15, 23, 42, 0.12) !important; }
+html.light ::-webkit-scrollbar-thumb {
+  background: rgb(var(--accent) / 0.55);
+}
+
+/* Respect reduced-motion users for performance/accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
